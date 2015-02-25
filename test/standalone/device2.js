@@ -35,7 +35,7 @@ test('create unidirectional device with two sockets', function (t) {
     s1.connect(addr1);
     s2.connect(addr2);
 
-    s2.on('message', function (buf) {
+    s2.on('data', function (buf) {
         t.equal(buf.toString(), msg);
         s1.close();
         s2.close();
@@ -49,4 +49,3 @@ test('create unidirectional device with two sockets', function (t) {
     }, 100);
 
 });
-

@@ -31,7 +31,7 @@ test('create loopback device with one socket', function (t) {
     s1.connect(addr);
     s2.connect(addr);
 
-    s2.on('message', function (buf) {
+    s2.on('data', function (buf) {
         t.equal(buf.toString(), msg);
         s1.close();
         s2.close();
@@ -45,4 +45,3 @@ test('create loopback device with one socket', function (t) {
     }, 100);
 
 });
-
