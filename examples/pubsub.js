@@ -6,11 +6,9 @@ var addr = 'tcp://127.0.0.1:7789'
 pub.bind(addr);
 sub.connect(addr);
 
-sub.setEncoding('utf8');
-
-sub.on('data', console.log);
+sub.pipe(process.stdout);
 setInterval( send, 100 );
 
 function send(){
-  pub.send('hello from nanomsg stream api');
+  pub.send('hello from nanomsg stream api\n');
 }
