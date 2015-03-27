@@ -1,6 +1,6 @@
 // http://tim.dysinger.net/posts/2013-09-16-getting-started-with-nanomsg.html
 
-/*var nano = require('../');
+var nano = require('../');
 var test = require('tape');
 
 test('inproc socket survey', function (t) {
@@ -40,4 +40,4 @@ test('inproc socket survey', function (t) {
         rep2.close();
         rep3.close();
     })
-}); */
+});
