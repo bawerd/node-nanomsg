@@ -7,7 +7,7 @@ test('map bind address eid for valid INPROC address', function (t) {
   var sock = nano.socket('pub');
   sock.bind('inproc://some_address');
 
-  if (Array.isArray( sock.how['inproc://some_address'] )) {
+  if (sock.bound['inproc://some_address']) {
     t.pass('valid INPROC bind');
   } else {
     t.pass('INPROC bind fail');
@@ -22,7 +22,7 @@ test('map bind address eid for valid IPC address', function (t) {
   var sock = nano.socket('pub');
   sock.bind('ipc://some_address');
 
-  if (Array.isArray( sock.how['ipc://some_address'] )) {
+  if (sock.bound['ipc://some_address']) {
     t.pass('valid IPC bind');
   } else {
     t.pass('IPC bind fail');
@@ -37,7 +37,7 @@ test('map bind address eid for valid TCP address', function (t) {
   var sock = nano.socket('pub');
   sock.bind('tcp://127.0.0.1:5555');
 
-  if (Array.isArray( sock.how['tcp://127.0.0.1:5555'] )) {
+  if (sock.bound['tcp://127.0.0.1:5555']) {
     t.pass('valid TCP bind');
   } else {
     t.pass('TCP bind fail');

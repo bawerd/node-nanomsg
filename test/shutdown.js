@@ -17,8 +17,8 @@ test('bind five heterogeneous pub connections to a subscriber', function(t){
   while(--i > 0) sub.connect( addr + i);
 
   //verify connection addresses known by publishers
-  while(++i <= 5) t.ok(has(pubs['p'+i],'how'),'pub p'+i+' \'how\' property check');
-  while(i-- > 1) t.ok(has(pubs['p'+i].how, addr+i ),'pub p'+i+' addr: '+ addr+i);
+  while(++i <= 5) t.ok(has(pubs['p'+i],'bound'),'pub p'+i+' \'eid\' property check');
+  while(i-- > 1) t.ok(has(pubs['p'+i].bound, addr+i ),'pub p'+i+' addr: '+ addr+i);
 
   t.end();
 
@@ -26,7 +26,7 @@ test('bind five heterogeneous pub connections to a subscriber', function(t){
 
 test('shutdown the sub\'s connections',function(t){
 
-  t.equal( Object.keys(sub.how).length, 5, 'subscriber connections: 5' );
+  t.equal( Object.keys(sub.connected).length, 5, 'subscriber connections: 5' );
 
   sub.on('message', function(msg){
 
@@ -38,51 +38,49 @@ test('shutdown the sub\'s connections',function(t){
       case 'hello from p1': if (++i == 10) {
 
         t.equal( sub.shutdown(addr+1),
-          'connect endpoint tcp://127.0.0.1:44451 shutdown',
-          'shutting down connection to endpoint: tcp://127.0.0.1:44451' );
+          Object.keys(sub.connected).length+1,
+          'shutting down connection to endpoint: tcp://127.0.0.1:44451\n'
+            + 'subscriber connections: 4' );
 
-        t.equal( Object.keys(sub.how).length, 4, 'subscriber connections: 4' );
-
+        t.equal(Object.keys(sub.connected).length, 4, 'subscriber connections: 4');
       } break;
 
       case 'hello from p2': if (i == 10) {
 
         t.equal( sub.shutdown(addr+2),
-          'connect endpoint tcp://127.0.0.1:44452 shutdown',
-          'shutting down connection to endpoint: tcp://127.0.0.1:44452' );
+          Object.keys(sub.connected).length+1,
+          'shutting down connection to endpoint: tcp://127.0.0.1:44452\n'
+            + 'subscriber connections: 3' );
 
-        t.equal( Object.keys(sub.how).length, 3, 'subscriber connections: 3' );
-
+        t.equal(Object.keys(sub.connected).length, 3, 'subscriber connections: 3');
       } break;
 
       case 'hello from p3': if (i == 10) {
 
         t.equal( sub.shutdown(addr+3),
-          'connect endpoint tcp://127.0.0.1:44453 shutdown',
-          'shutting down connection to endpoint: tcp://127.0.0.1:44453' );
+          Object.keys(sub.connected).length+1,
+          'shutting down connection to endpoint: tcp://127.0.0.1:44453\n'
+            + 'subscriber connections: 2' );
 
-        t.equal( Object.keys(sub.how).length, 2, 'subscriber connections: 2' );
-
+        t.equal(Object.keys(sub.connected).length, 2, 'subscriber connections: 2');
       } break;
 
       case 'hello from p4': if (i == 10) {
 
         t.equal( sub.shutdown(addr+4),
-          'connect endpoint tcp://127.0.0.1:44454 shutdown',
-          'shutting down connection to endpoint: tcp://127.0.0.1:44454' );
+          Object.keys(sub.connected).length+1,
+          'shutting down connection to endpoint: tcp://127.0.0.1:44454');
 
-        t.equal( Object.keys(sub.how).length, 1, 'subscriber connections: 1' );
-
+        t.equal(Object.keys(sub.connected).length, 1, 'subscriber connections: 1');
       } break;
 
       case 'hello from p5': if (i == 10) {
 
         t.equal( sub.shutdown(addr+5),
-          'connect endpoint tcp://127.0.0.1:44455 shutdown',
-          'shutting down connection to endpoint: tcp://127.0.0.1:44455' );
+          Object.keys(sub.connected).length+1,
+          'shutting down connection to endpoint: tcp://127.0.0.1:44455');
 
-        t.equal( Object.keys(sub.how).length, 0, 'subscriber connections: 0' );
-
+        t.equal(Object.keys(sub.connected).length, 0, 'subscriber connections: 0')
         //clean up
         clearInterval(pubInterval);
         for(var p in pubs) pubs[p].close();

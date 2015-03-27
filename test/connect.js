@@ -7,7 +7,7 @@ test('map connect address eid for valid INPROC address', function (t) {
   var sock = nano.socket('pub');
   sock.connect('inproc://some_address');
 
-  if (Array.isArray( sock.how['inproc://some_address'] )) {
+  if (sock.connected['inproc://some_address']) {
     t.pass('valid INPROC connect');
   } else {
     t.pass('INPROC connect fail');
@@ -22,7 +22,7 @@ test('map connect address eid for valid IPC address', function (t) {
   var sock = nano.socket('pub');
   sock.connect('ipc://some_address');
 
-  if (Array.isArray( sock.how['ipc://some_address'] )) {
+  if (sock.connected['ipc://some_address']) {
     t.pass('valid IPC connect');
   } else {
     t.pass('IPC connect fail');
@@ -37,7 +37,7 @@ test('map connect address eid for valid TCP address', function (t) {
   var sock = nano.socket('pub');
   sock.connect('tcp://127.0.0.1:5555');
 
-  if (Array.isArray( sock.how['tcp://127.0.0.1:5555'] )) {
+  if (sock.connected['tcp://127.0.0.1:5555']) {
     t.pass('valid TCP connect');
   } else {
     t.pass('TCP connect fail');
