@@ -1,5 +1,4 @@
-var nano = require('../');
-
+var nano = require('..');
 var pub = nano.socket('pub');
 var sub = nano.socket('sub');
 
@@ -7,12 +6,11 @@ var addr = 'tcp://127.0.0.1:7789'
 pub.bind(addr);
 sub.connect(addr);
 
-sub.on('message', function (buf) {
-	console.log(buf.toString());
-	pub.close();
-	sub.close();
-});
+sub.setEncoding('utf8');
 
-setTimeout(function () {
-	pub.send("Hello from nanomsg!");
-}, 100);
+sub.on('data', console.log);
+setInterval( send, 100 );
+
+function send(){
+  pub.send('hello from nanomsg stream api');
+}

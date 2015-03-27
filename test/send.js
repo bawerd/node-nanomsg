@@ -1,28 +1,25 @@
 // https://github.com/chuckremes/nn-core/blob/master/spec/nn_send_spec.rb
 
-var nano = require('../');
-var nn = nano._bindings;
-
+var nano = require('..');
 var test = require('tape');
 
-
 test('send returns number of bytes sent for bound socket', function (t) {
-    t.plan(1);
+  t.plan(1);
 
-    var sock = nano.socket('pub');
-    sock.bind('inproc://some_address');
-    var rc = sock.send('ABC');
-    t.equal(rc, 3);
-    sock.close();
+  var sock = nano.socket('pub');
+  sock.bind('inproc://some_address');
+  var rc = sock.send('ABC');
+  t.equal(rc, 3);
+  sock.close();
 });
 
 test('send returns number of bytes queued for unbound socket', function (t) {
-    t.plan(1);
+  t.plan(1);
 
-    var sock = nano.socket('pub');
-    var rc = sock.send('ABC');
-    t.equal(rc, 3);
-    sock.close();
+  var sock = nano.socket('pub');
+  var rc = sock.send('ABC');
+  t.equal(rc, 3);
+  sock.close();
 });
 
 test('send can take a string', function (t) {
@@ -36,7 +33,7 @@ test('send can take a string', function (t) {
   pub.bind(addr);
   sub.connect(addr);
 
-  sub.on('message', function (buf) {
+  sub.on('data', function (buf) {
     t.equal(buf.toString(), msg);
     t.equal(buf.length, msg.length);
     pub.close();
@@ -58,7 +55,7 @@ test('send can take a buffer', function (t) {
   pub.bind(addr);
   sub.connect(addr);
 
-  sub.on('message', function (buf) {
+  sub.on('data', function (buf) {
     t.equal(buf.toString(), msg.toString());
     t.equal(buf.length, msg.length);
     pub.close();
@@ -80,7 +77,7 @@ test('should not null terminate when sending strings', function (t) {
   pub.bind(addr);
   sub.connect(addr);
 
-  sub.on('message', function (buf) {
+  sub.on('data', function (buf) {
     if (buf[buf.length - 1] === 0) {
       t.fail();
     }
@@ -94,4 +91,3 @@ test('should not null terminate when sending strings', function (t) {
   t.equal(bytes, msg.length);
 
 });
-
